@@ -1,5 +1,8 @@
+
 #include <iostream>
 #include <string>
+#include <algorithm>
+#include<cstdint>
 using namespace std;
 
 class BigInt {
@@ -66,13 +69,137 @@ public:
 
     // Addition assignment operator (x += y)
     BigInt& operator+=(const BigInt& other) {
-        // TODO: Implement this operator
+
+        // Same signs -> add magnitudes
+        if (isNegative == other.isNegative) {
+
+            int i = number.size() - 1;
+            int j = other.number.size() - 1;
+            int carry = 0;
+
+            string result;
+
+            while (i >= 0 || j >= 0 || carry) {
+
+                int sum = carry;
+
+                if (i >= 0)
+                    sum += number[i--] - '0';
+
+                if (j >= 0)
+                    sum += other.number[j--] - '0';
+
+                result.push_back(char('0' + (sum % 10)));
+
+                carry = sum / 10;
+            }
+
+            reverse(result.begin(), result.end());
+
+            number = result;
+        }
+
+        // Different signs -> subtract magnitudes
+        else {
+
+            int cmp = compareMagnitude(other);
+
+            // Equal magnitudes -> result is zero
+            if (cmp == 0) {
+
+                number = "0";
+                isNegative = false;
+
+                return *this;
+            }
+
+            // |this| > |other|
+            if (cmp > 0) {
+
+                int i = number.size() - 1;
+                int j = other.number.size() - 1;
+                int borrow = 0;
+
+                string result;
+
+                while (i >= 0) {
+
+                    int digit = (number[i] - '0') - borrow;
+
+                    if (j >= 0)
+                        digit -= other.number[j--] - '0';
+
+                    if (digit < 0) {
+                        digit += 10;
+                        borrow = 1;
+                    }
+                    else {
+                        borrow = 0;
+                    }
+
+                    result.push_back(char('0' + digit));
+
+                    i--;
+                }
+
+                reverse(result.begin(), result.end());
+
+                number = result;
+            }
+
+            // |other| > |this|
+            else {
+
+                int i = other.number.size() - 1;
+                int j = number.size() - 1;
+                int borrow = 0;
+
+                string result;
+
+                while (i >= 0) {
+
+                    int digit = (other.number[i] - '0') - borrow;
+
+                    if (j >= 0)
+                        digit -= number[j--] - '0';
+
+                    if (digit < 0) {
+                        digit += 10;
+                        borrow = 1;
+                    }
+                    else {
+                        borrow = 0;
+                    }
+
+                    result.push_back(char('0' + digit));
+
+                    i--;
+                }
+
+                reverse(result.begin(), result.end());
+
+                number = result;
+
+                // Result takes the sign of the larger magnitude
+                isNegative = other.isNegative;
+            }
+        }
+
         return *this;
     }
 
     // Subtraction assignment operator (x -= y)
     BigInt& operator-=(const BigInt& other) {
-        // TODO: Implement this operator
+
+        // x - y = x + (-y)
+
+        BigInt temp = other;
+
+        if (temp.number != "0")
+            temp.isNegative = !temp.isNegative;
+
+        *this += temp;
+
         return *this;
     }
 
@@ -145,16 +272,18 @@ public:
 
 // Binary addition operator (x + y)
 BigInt operator+(BigInt lhs, const BigInt& rhs) {
-    BigInt result;
-    // TODO: Implement this operator
-    return result;
+
+    lhs += rhs;
+
+    return lhs;
 }
 
 // Binary subtraction operator (x - y)
 BigInt operator-(BigInt lhs, const BigInt& rhs) {
-    BigInt result;
-    // TODO: Implement this operator
-    return result;
+
+    lhs -= rhs;
+
+    return lhs;
 }
 
 // Binary multiplication operator (x * y)
@@ -280,3 +409,4 @@ int main() {
 
     return 0;
 }
+
