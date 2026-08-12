@@ -94,7 +94,45 @@ public:
     // Multiplication assignment operator (x *= y)
     BigInt &operator*=(const BigInt &other)
     {
-        // TODO: Implement this operator
+        if (this->number == "0" || other.number == "0")
+        {
+            this->number = "0";
+            this->isNegative = "false";
+            return *this;
+        }
+
+        this->isNegative = (this->isNegative != other.isNegative);
+        int n1 = this->number.length();
+        int n2 = other.number.length();
+
+        int *resultArray = new int[n1 + n2]();
+
+        for (int i = n1 - 1; i >= 0; i--)
+        {
+            for (int j = n2 - 1; j >= 0; j--)
+            {
+                int digit1 = this->number[i] - '0';
+                int digit2 = other.number[j] - '0';
+                int sum = (digit1 * digit2) + resultArray[i + j + 1];
+
+                resultArray[i + j + 1] = sum % 10;
+                resultArray[i + j] += sum / 10;
+            }
+        }
+
+        string finalNumber = "";
+        for (int i = 0; i < n1 + n2; i++)
+        {
+            if (!(finalNumber.empty() && resultArray[i] == 0))
+            {
+                finalNumber += to_string(resultArray[i]);
+            }
+        }
+
+        delete[] resultArray;
+        this->number = finalNumber.empty() ? "0" : finalNumber;
+        this->removeLeadingZeros();
+
         return *this;
     }
 
