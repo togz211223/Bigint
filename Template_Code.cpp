@@ -226,7 +226,10 @@ BigInt operator-(BigInt lhs, const BigInt &rhs)
 BigInt operator*(BigInt lhs, const BigInt &rhs)
 {
     BigInt result;
-    // TODO: Implement this operator
+
+    result = lhs;
+    result *= rhs;
+
     return result;
 }
 
