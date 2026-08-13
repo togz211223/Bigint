@@ -8,7 +8,16 @@ class BigInt {
 
     // Remove unnecessary leading zeros from the number string
     void removeLeadingZeros() {
-        // TODO: Implement this function
+        // TODO: Implement this function  (Done)
+        while (number.length() > 1 && number[0] == '0')
+        {
+            number.erase(0, 1);
+        }
+        if (number == "0")
+        {
+            isNegative = false;
+        }
+
     }
 
     // Compare absolute values of two BigInts (ignore signs)
@@ -21,7 +30,9 @@ class BigInt {
 public:
     // Default constructor - initialize to zero
     BigInt() {
-        // TODO: Implement this constructor
+        // TODO: Implement this constructor (Done)
+        number = "0";
+        isNegative = false;
     }
 
     // Constructor from 64-bit integer
@@ -41,7 +52,7 @@ public:
 
     // Destructor
     ~BigInt() {
-        // TODO: Implement if needed
+        // TODO: Implement if needed (Done)
     }
 
     // Assignment operator
