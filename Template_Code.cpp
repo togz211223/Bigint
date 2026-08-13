@@ -97,7 +97,7 @@ public:
         if (this->number == "0" || other.number == "0")
         {
             this->number = "0";
-            this->isNegative = "false";
+            this->isNegative = false; // removed "" from false because it's a bool and not a string
             return *this;
         }
 
@@ -105,7 +105,7 @@ public:
         int n1 = this->number.length();
         int n2 = other.number.length();
 
-        int *resultArray = new int[n1 + n2]();
+        int *resultArray = new int[n1 + n2](); // We can't use dynamic memory according to the srs use a vector instead
 
         for (int i = n1 - 1; i >= 0; i--)
         {
