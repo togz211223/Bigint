@@ -109,7 +109,7 @@ public:
 
                 number = "0";
                 isNegative = false;
-
+                removeLeadingZeros();
                 return *this;
             }
 
