@@ -109,7 +109,7 @@ public:
 
                 number = "0";
                 isNegative = false;
-                removeLeadingZeros();
+                
                 return *this;
             }
 
@@ -184,7 +184,7 @@ public:
                 isNegative = other.isNegative;
             }
         }
-
+        removeLeadingZeros();
         return *this;
     }
 
