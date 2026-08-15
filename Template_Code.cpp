@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <vector>
 using namespace std;
 
 class BigInt
@@ -105,7 +106,7 @@ public:
         int n1 = this->number.length();
         int n2 = other.number.length();
 
-        int *resultArray = new int[n1 + n2]();
+        vector<int> resultArray(n1 + n2, 0);
 
         for (int i = n1 - 1; i >= 0; i--)
         {
@@ -129,7 +130,6 @@ public:
             }
         }
 
-        delete[] resultArray;
         this->number = finalNumber.empty() ? "0" : finalNumber;
         this->removeLeadingZeros();
 
