@@ -264,14 +264,29 @@ public:
     // Division assignment operator (x /= y)
     BigInt &operator/=(const BigInt &other)
     {
-        // TODO: Implement this operator
+    if (other.number == "0") {
+    throw runtime_error("Division by zero");
+    }
+
+    bool resultNegative = (isNegative != other.isNegative); 
+    string quotient, remainder;
+    longDivide(number, other.number, quotient, remainder);
+    number = quotient;
+    isNegative = resultNegative;
+    removeLeadingZeros();
         return *this;
     }
 
     // Modulus assignment operator (x %= y)
     BigInt &operator%=(const BigInt &other)
     {
-        // TODO: Implement this operator
+        if (other.number == "0") {
+        throw runtime_error("Division by zero");
+    }
+    string quotient, remainder;
+    longDivide(number, other.number, quotient, remainder);
+    number = remainder;
+    removeLeadingZeros();
         return *this;
     }
 
