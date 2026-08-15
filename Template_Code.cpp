@@ -13,8 +13,9 @@ class BigInt {
         {
             number.erase(0, 1);
         }
-        if (number == "0")
+        if (number == "0" || number.empty()) // added number.empty to make it to cover the case of empty input
         {
+            number = "0";
             isNegative = false;
         }
 
