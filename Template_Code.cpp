@@ -45,19 +45,43 @@ public:
     // Constructor from 64-bit integer
     BigInt(int64_t value)
     {
-        // TODO: Implement this constructor
+        // TODO: Implement this constructor (Done)
+        if (value < 0)
+        {
+            isNegative = true;
+            number = to_string(-value);
+
+        }
+        else
+        {
+            isNegative = false;
+            number = to_string(value);
+        }
+        
     }
 
     // Constructor from string representation
     BigInt(const string &str)
     {
         // TODO: Implement this constructor
+        if (str[0] == '-')
+        {
+            number = str.substr(1);
+        }
+        else
+        {
+            isNegative = false;
+            number = str;
+        }
+        removeLeadingZeros
     }
 
     // Copy constructor
     BigInt(const BigInt &other)
     {
         // TODO: Implement this constructor
+        number = other.number;
+        isNegative = other.isNegative
     }
 
     // Destructor
@@ -66,9 +90,12 @@ public:
     }
 
     // Assignment operator
-    BigInt &operator=(const BigInt &other)
+    BigInt& operator=(const BigInt &other)
     {
         // TODO: Implement this operator
+        if (this == &other) return *this;
+        number = other.number;
+        isNegative = other.isNegative;
         return *this;
     }
 
@@ -317,14 +344,19 @@ public:
     // Convert BigInt to string representation
     string toString() const
     {
-        // TODO: Implement this function
-        return "";
+        // TODO: Implement this function (Done)
+        if (isNegative && number != "0")
+        {
+            return "-" + number;
+        }
+        return number;
     }
 
     // Output stream operator (for printing)
     friend ostream &operator<<(ostream &os, const BigInt &num)
     {
         // TODO: Implement this operator
+        os << num.toString();
         return os;
     }
 
@@ -332,6 +364,9 @@ public:
     friend istream &operator>>(istream &is, BigInt &num)
     {
         // TODO: Implement this operator
+        string text;
+        is >> text;
+        num = BigInt(text);
         return is;
     }
 
