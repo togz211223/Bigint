@@ -98,7 +98,7 @@ public:
         if (this->number == "0" || other.number == "0")
         {
             this->number = "0";
-            this->isNegative = "false";
+            this->isNegative = false; // removed "" from false because it's a bool and not a string
             return *this;
         }
 
