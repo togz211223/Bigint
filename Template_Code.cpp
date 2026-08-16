@@ -1,9 +1,9 @@
-
 #include <iostream>
 #include <string>
 #include <algorithm>
-#include<cstdint>
+#include <cstdint>
 #include <vector>
+#include <stdexcept> // Needed for throw runtime_error to handle errors if present
 using namespace std;
 
 class BigInt
@@ -264,16 +264,47 @@ public:
     // Division assignment operator (x /= y)
     BigInt &operator/=(const BigInt &other)
     {
-    if (other.number == "0") {
-    throw runtime_error("Division by zero");
-    }
+        if (other.number == "0") {
+            throw runtime_error("Division by zero");
+        }
 
-    bool resultNegative = (isNegative != other.isNegative); 
-    string quotient, remainder;
-    longDivide(number, other.number, quotient, remainder);
-    number = quotient;
-    isNegative = resultNegative;
-    removeLeadingZeros();
+        // If |this| < |other|, the result is 0
+        int cmp = this->compareMagnitude(other);
+        if (cmp < 0) {
+            this->number = "0";
+            this->isNegative = false;
+            return *this;
+        }
+
+        // XOR sign rule
+        bool resultNegative = (this->isNegative != other.isNegative);
+
+        // Digit-by-digit long division
+        string quotient = "";
+        BigInt current;
+        current.number = "";
+        current.isNegative = false;
+
+        BigInt absOther = other;
+        absOther.isNegative = false; // Only use positive magnitude for division loop
+
+        for (size_t i = 0; i < this->number.length(); i++) {
+            current.number += this->number[i];
+            current.removeLeadingZeros();
+
+            int count = 0;
+            // Subtract absOther from current as many times as it fits
+            while (current.compareMagnitude(absOther) >= 0) {
+                current -= absOther;
+                count++;
+            }
+            quotient += to_string(count);
+        }
+
+        this->number = quotient;
+        this->isNegative = resultNegative;
+        this->removeLeadingZeros();
+
         return *this;
     }
 
@@ -281,12 +312,20 @@ public:
     BigInt &operator%=(const BigInt &other)
     {
         if (other.number == "0") {
-        throw runtime_error("Division by zero");
-    }
-    string quotient, remainder;
-    longDivide(number, other.number, quotient, remainder);
-    number = remainder;
-    removeLeadingZeros();
+            throw runtime_error("Division by zero");
+        }
+
+        // Section 5.5 formula: remainder = this - (this / other) * other
+        BigInt quotient = *this / other;
+        BigInt product = quotient * other;
+        
+        *this -= product;
+
+        // Protect against negative zero
+        if (this->number == "0") {
+            this->isNegative = false;
+        }
+
         return *this;
     }
 
@@ -376,17 +415,15 @@ BigInt operator*(BigInt lhs, const BigInt &rhs)
 // Binary division operator (x / y)
 BigInt operator/(BigInt lhs, const BigInt &rhs)
 {
-    BigInt result;
-    // TODO: Implement this operator
-    return result;
+    lhs /= rhs;
+    return lhs;
 }
 
 // Binary modulus operator (x % y)
 BigInt operator%(BigInt lhs, const BigInt &rhs)
 {
-    BigInt result;
-    // TODO: Implement this operator
-    return result;
+    lhs %= rhs;
+    return lhs;
 }
 
 // Equality comparison operator (x == y)
@@ -500,4 +537,3 @@ int main()
 
     return 0;
 }
-
