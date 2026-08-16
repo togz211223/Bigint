@@ -76,14 +76,14 @@ public:
             isNegative = false;
             number = to_string(value);
         }
-        
+
     }
 
     // Constructor from string representation
     BigInt(const string &str)
     {
         // TODO: Implement this constructor
-        if (str[0] == '-')
+        if (!str.empty() && str[0] == '-')
         {
             isNegative = true; //forgot to change sign
             number = str.substr(1);
@@ -179,7 +179,7 @@ public:
 
                 number = "0";
                 isNegative = false;
-                
+
                 return *this;
             }
 
@@ -372,9 +372,13 @@ public:
         }
 
         // Section 5.5 formula: remainder = this - (this / other) * other
-        BigInt quotient = *this / other;
-        BigInt product = quotient * other;
-        
+        // Using /= and *= fixes the compiler error!
+        BigInt quotient = *this;
+        quotient /= other;
+
+        BigInt product = quotient;
+        product *= other;
+
         *this -= product;
 
         // Protect against negative zero
@@ -492,7 +496,7 @@ BigInt operator%(BigInt lhs, const BigInt &rhs)
 // Equality comparison operator (x == y)
 bool operator==(const BigInt &lhs, const BigInt &rhs)
 {
-    if (lhs.number == "0" && rhs.number == "0") { 
+    if (lhs.number == "0" && rhs.number == "0") {
         return true;
     }
     return (lhs.isNegative == rhs.isNegative) && (lhs.number == rhs.number);
@@ -549,7 +553,7 @@ int main()
     cout << "The tests below will work once you implement them correctly." << endl
          << endl;
 
-    /*
+
     // Test 1: Constructors and basic output
     cout << "1. Constructors and output:" << endl;
     BigInt a(12345);              // Should create BigInt from integer
@@ -605,7 +609,7 @@ int main()
     cout << "Negative multiplication: " << BigInt(-5) * BigInt(3) << endl;  // Should be "-15"
     cout << "Negative division: " << BigInt(-10) / BigInt(3) << endl;       // Should be "-3"
     cout << "Negative modulus: " << BigInt(-10) % BigInt(3) << endl;        // Should be "-1"
-    */
+
 
     return 0;
 }
