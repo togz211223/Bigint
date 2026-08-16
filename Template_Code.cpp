@@ -52,14 +52,18 @@ public:
 
     // Unary negation operator (-x)
     BigInt operator-() const {
-        BigInt result;
         // TODO: Implement negation logic
+        if (number == "0"){ // does not add - if number = 0
+            return *this;
+        }
+        BigInt result = *this;
+        result.isNegative = !isNegative;
         return result;
     }
 
     // Unary plus operator (+x)
     BigInt operator+() const {
-        BigInt result;
+        BigInt result = *this;
         // TODO: Implement this operator
         return result;
     }
@@ -180,38 +184,54 @@ BigInt operator%(BigInt lhs, const BigInt& rhs) {
 
 // Equality comparison operator (x == y)
 bool operator==(const BigInt& lhs, const BigInt& rhs) {
-    // TODO: Implement this operator
-    return false;
+
+    if (lhs.number == "0" && rhs.number == "0") { // to prevent +0 and -0 edge case
+        return true;
+    }
+
+    return (lhs.isNegative == rhs.isNegative) && (lhs.number == rhs.number);
 }
 
 // Inequality comparison operator (x != y)
 bool operator!=(const BigInt& lhs, const BigInt& rhs) {
     // TODO: Implement this operator
-    return false;
+    return !(lhs == rhs);
 }
 
 // Less-than comparison operator (x < y)
 bool operator<(const BigInt& lhs, const BigInt& rhs) {
     // TODO: Implement this operator
-    return false;
+    if (lhs.isNegative && !rhs.isNegative) return true;  // negative < positive is true
+    if (!lhs.isNegative && rhs.isNegative) return false; // positive < negative is false
+
+    // Same signs handling
+    int magCompare = lhs.compareMagnitude(rhs);
+
+    if (!lhs.isNegative) {
+        // Both are positive
+        return magCompare == -1;
+    } else {
+        // Both are negative (-10 < -5)
+        return magCompare == 1;
+    }
 }
 
 // Less-than-or-equal comparison operator (x <= y)
 bool operator<=(const BigInt& lhs, const BigInt& rhs) {
-    // TODO: Implement this operator
-    return false;
+    return (lhs < rhs) || (lhs == rhs);
 }
+
 
 // Greater-than comparison operator (x > y)
 bool operator>(const BigInt& lhs, const BigInt& rhs) {
     // TODO: Implement this operator
-    return false;
+     return !(lhs <= rhs);
 }
 
 // Greater-than-or-equal comparison operator (x >= y)
 bool operator>=(const BigInt& lhs, const BigInt& rhs) {
     // TODO: Implement this operator
-    return false;
+    return (lhs > rhs) || (lhs == rhs);
 }
 
 int main() {
