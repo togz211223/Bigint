@@ -18,7 +18,26 @@ class BigInt
     // Returns: 1 if |this| > |other|, 0 if equal, -1 if |this| < |other|
     int compareMagnitude(const BigInt &other) const
     {
-        // TODO: Implement this function
+        if (this->number.length() > other.number.length())
+        {
+            return 1;
+        }
+
+        if (this->number.length() < other.number.length())
+        {
+            return -1;
+        }
+
+        if (this->number > other.number)
+        {
+            return 1;
+        }
+
+        if (this->number < other.number)
+        {
+            return -1;
+        }
+
         return 0;
     }
 
