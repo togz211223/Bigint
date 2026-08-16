@@ -1,0 +1,34 @@
+1-Cleanup & Setup: build the background tools that everyone else will use to make their code work. (scrum 5-6)
+ex.(Doha Mohamed)
+removeLeadingZeros()
+compareMagnitude()
+toString()
+2-Create & Print:  write the code that creates a new number and shows it on the screen (Salma Hesham) (scrum 7-9)
+ex.
+Constructors
+Assignment
+Screen Input/Output
+3-Addition & Subtraction: They handle the math (Marwan Mohamed) (scrum 10-11)
+ex.
+Plus (+ and +=)
+Minus (- and -=)
+handle the rules for signs (e.g., adding a negative number is actually subtraction).
+4-Multiplication: hey handle multiplying huge numbers together. (Donia Mohamed) (scrum 12-13)
+Times (* and *=): 
+figure out if the final answer should be positive or negative
+5-Division & Remainder: (Scrum 14-15) (Omar Mohamed)
+Note: wait until Roles 3 and 4 are almost done, because they will need to use Subtraction and Multiplication in their code.
+ex.
+Divide (/ and /=)
+Remainder/Modulus (% and %=)
+They must also write the error rule that stops the program if someone tries to divide by zero
+6-Comparisons & Plus-One: write the logic to compare numbers and do quick shortcuts. (Retal Ahmed) (Scrum 16-17)
+Comparisons (==, <, >, <=, >=, !=)
+Step Up/Down (++ and --)
+Sign Flip (- and +)
+7-Tester & Rule Checker: make sure the final product gets a 100% grade (Mohamed Alaa-eldin) (Scrum 18-19)
+ex.
+Combine the Code
+Run the Tests
+Check for Common Mistakes
+Check the Rules	
