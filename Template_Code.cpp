@@ -101,26 +101,30 @@ public:
     // Pre-increment operator (++x)
     BigInt& operator++() {
         // TODO: Implement this operator
+         *this += 1;
         return *this;
     }
 
     // Post-increment operator (x++)
     BigInt operator++(int) {
-        BigInt temp;
+        BigInt temp = *this;
         // TODO: Implement this operator
+        ++(*this); // Call the pre-increment operator we wrote above to add 1
         return temp;
     }
 
     // Pre-decrement operator (--x)
     BigInt& operator--() {
         // TODO: Implement this operator
+        *this -= 1;
         return *this;
     }
 
     // Post-decrement operator (x--)
     BigInt operator--(int) {
-        BigInt temp;
+        BigInt temp = *this;
         // TODO: Implement this operator
+        --(*this);
         return temp;
     }
 
