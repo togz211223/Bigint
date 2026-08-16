@@ -66,6 +66,7 @@ public:
         // TODO: Implement this constructor
         if (str[0] == '-')
         {
+            isNegative = true; //forgot to change sign
             number = str.substr(1);
         }
         else
@@ -73,7 +74,7 @@ public:
             isNegative = false;
             number = str;
         }
-        removeLeadingZeros
+        removeLeadingZeros();
     }
 
     // Copy constructor
@@ -81,7 +82,7 @@ public:
     {
         // TODO: Implement this constructor
         number = other.number;
-        isNegative = other.isNegative
+        isNegative = other.isNegative;
     }
 
     // Destructor
