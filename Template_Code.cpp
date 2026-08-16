@@ -493,43 +493,52 @@ BigInt operator%(BigInt lhs, const BigInt &rhs)
 // Equality comparison operator (x == y)
 bool operator==(const BigInt &lhs, const BigInt &rhs)
 {
-    // TODO: Implement this operator
-    return false;
+    if (lhs.number == "0" && rhs.number == "0") { 
+        return true;
+    }
+    return (lhs.isNegative == rhs.isNegative) && (lhs.number == rhs.number);
 }
 
 // Inequality comparison operator (x != y)
 bool operator!=(const BigInt &lhs, const BigInt &rhs)
 {
-    // TODO: Implement this operator
-    return false;
+    return !(lhs == rhs);
 }
 
 // Less-than comparison operator (x < y)
 bool operator<(const BigInt &lhs, const BigInt &rhs)
 {
-    // TODO: Implement this operator
-    return false;
+    if (lhs.isNegative && !rhs.isNegative) return true;  // negative < positive is true
+    if (!lhs.isNegative && rhs.isNegative) return false; // positive < negative is false
+
+    // Same signs handling
+    int magCompare = lhs.compareMagnitude(rhs);
+
+    if (!lhs.isNegative) {
+        // Both are positive
+        return magCompare == -1;
+    } else {
+        // Both are negative (-10 < -5)
+        return magCompare == 1;
+    }
 }
 
 // Less-than-or-equal comparison operator (x <= y)
 bool operator<=(const BigInt &lhs, const BigInt &rhs)
 {
-    // TODO: Implement this operator
-    return false;
+    return (lhs < rhs) || (lhs == rhs);
 }
 
 // Greater-than comparison operator (x > y)
 bool operator>(const BigInt &lhs, const BigInt &rhs)
 {
-    // TODO: Implement this operator
-    return false;
+    return !(lhs <= rhs);
 }
 
 // Greater-than-or-equal comparison operator (x >= y)
 bool operator>=(const BigInt &lhs, const BigInt &rhs)
 {
-    // TODO: Implement this operator
-    return false;
+    return !(lhs < rhs); // Optimized to 1-liner
 }
 
 int main()
